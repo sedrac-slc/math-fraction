@@ -58,26 +58,29 @@ final public class FractionFormatter {
     /*
      * retorn expression (a*e)/b+(d*b)/(e*b) 
      */
-    public static Step stepOneCrossSystem(Fraction first, Fraction second){
+    public static Step stepOneCrossSystem(Fraction first, Fraction second,String signal){
+       String msg = String.format(message.getString("step.one.cross"),signal);
        String text = FractionText.operationStepOneCrossSystem(first, second);
        String html = FractionHtml.operationStepOneCrossSystem(first, second);
-       return (new Step()).toBuilder().text(text).html(html).codigo(1).build();
+       return (new Step()).toBuilder().text(text).html(html).codigo(1).message(msg).build();
     }    
     /*
      * retorn expression (a+b)/c
      */
-    public static Step stepTwoCrossSystem(Fraction first, Fraction second){
+    public static Step stepTwoCrossSystem(Fraction first, Fraction second,String signal){
+       String msg = String.format(message.getString("step.two.cross"),signal);
        String text = FractionText.operationStepTwoCrossSystem(first, second);
        String html = FractionHtml.operationStepTwoCrossSystem(first, second);
-       return (new Step()).toBuilder().text(text).html(html).codigo(2).build();
+       return (new Step()).toBuilder().text(text).html(html).codigo(2).message(msg).build();
     } 
     /*
      * retorn expression (a+b)/c
      */
     public static Step stepThreeCrossSystem(Fraction first, Fraction second){
+       String msg = message.getString("step.three.cross");
        String text = FractionText.operationStepThreeCrossSystem(first, second);
        String html = FractionHtml.operationStepThreeCrossSystem(first, second);
-       return (new Step()).toBuilder().text(text).html(html).codigo(3).build();
+       return (new Step()).toBuilder().text(text).html(html).codigo(3).message(msg).build();
     }    
 
     public static Step stepOneDenominatorEquals(Fraction first, Fraction second) {

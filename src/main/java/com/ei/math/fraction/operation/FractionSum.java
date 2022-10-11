@@ -48,8 +48,8 @@ public class FractionSum {
     public FractionResponse crossSystem(Fraction first, Fraction second){
         if(first.getDenominator().equals(second.getDenominator()))
             return baseCase(first, second);        
-        list.add(FractionFormatter.stepOneCrossSystem(first, second));
-        list.add(FractionFormatter.stepTwoCrossSystem(first, second));
+        list.add(FractionFormatter.stepOneCrossSystem(first, second,"+"));
+        list.add(FractionFormatter.stepTwoCrossSystem(first, second,"+"));
         list.add(FractionFormatter.stepThreeCrossSystem(first, second));
         Fraction fraction = first.sum(second);
         if(!fraction.isIrreducible()){
@@ -61,8 +61,8 @@ public class FractionSum {
       
     public static void main(String[] args) {
         FractionSum sum = new FractionSum();
-        sum.minMultiploCommon(Fraction.of(11,2),Fraction.of(7,3)).getSteps().forEach(e->{ 
-            System.out.println(e.getText()+" - "+e.getMessage());
+        sum.crossSystem(Fraction.of(11,2),Fraction.of(7,3)).getSteps().forEach(e->{ 
+            System.out.println(e.getText()+"-"+e.getMessage());
         });
     }
     
