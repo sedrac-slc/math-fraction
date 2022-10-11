@@ -12,4 +12,14 @@ public class FractionCalculate {
             num = first.getNumerator()*(mmc/first.getDenominator())-second.getNumerator()*(mmc/second.getDenominator());
         return num;
     }  
+  
+    public static long numeratorsSumOrSub(Fraction first,Fraction second,String sig){
+        long num = 0;
+        if(sig.equals("+"))
+            num = first.getNumerator()+second.getNumerator();
+        if(sig.equals("-"))
+            num = first.getNumerator()-second.getNumerator();
+        return num;
+    }  
+  
 }

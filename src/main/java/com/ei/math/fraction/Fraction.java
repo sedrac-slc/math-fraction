@@ -109,7 +109,8 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }
     
     public boolean isIrreducible(){
-        return Numbers.isPrime(numerator) || Numbers.isPrime(denominator);
+        if(denominator == 1 || numerator ==1) return true;
+        return !(isApparent() || denominator % numerator == 0);
     }
     
     public Fraction positive(){
