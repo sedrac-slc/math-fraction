@@ -4,7 +4,6 @@ import com.ei.math.fraction.exception.FractionDenominatorIsZeroException;
 import com.ei.math.fraction.text.FractionHtml;
 import com.ei.math.fraction.text.FractionText;
 import com.ei.math.fraction.util.MDC;
-import com.ei.math.fraction.util.Numbers;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.Builder;
@@ -26,17 +25,18 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
 
     protected Fraction(Long numerator) {
         this.numerator = numerator;
+        this.denominator = 1L;
     }
 
     protected Fraction(Long numerator, Long denominator) throws FractionDenominatorIsZeroException{
-        if(Objects.equals(this.denominator, 0.0)) throw new FractionDenominatorIsZeroException();
+        if(denominator == 0L) throw new FractionDenominatorIsZeroException();
         this.numerator = numerator;
         this.denominator = denominator;    
         changeSignal();
     }
 
     protected Fraction(Integer numerator, Integer denominator) throws FractionDenominatorIsZeroException{
-        if(Objects.equals(this.denominator, 0)) throw new FractionDenominatorIsZeroException();
+        if(denominator == 0) throw new FractionDenominatorIsZeroException();
         this.numerator = numerator.longValue();
         this.denominator = denominator.longValue();  
         changeSignal();
@@ -64,6 +64,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     public static Fraction of(Long numerator,Long denominator){return new Fraction(numerator, denominator);}
     public static Fraction of(Double numerator,Double denominator){
         if(numerator.equals(denominator)) of(1);
+        if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(FractionConverter.parse(denominator)).simplify();
     }    
         
@@ -71,16 +72,21 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     public static Fraction of(Long numerator,Integer denominator){return new Fraction(numerator, denominator.longValue());}
     
     public static Fraction of(Integer numerator,Double denominator){
+        if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return of(numerator).div(FractionConverter.parse(denominator)).simplify();
     }
     public static Fraction of(Double numerator,Integer denominator){
+         if(denominator.equals(0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(of(denominator)).simplify();
     }    
     
     public static Fraction of(Long numerator,Double denominator){
+         if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return of(numerator).div(FractionConverter.parse(denominator)).simplify();
     }
+    
     public static Fraction of(Double numerator,Long denominator){
+        if(denominator.equals(0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(of(denominator)).simplify();
     }     
     
@@ -115,6 +121,10 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     
     public Fraction positive(){
         return new Fraction(Math.abs(numerator), Math.abs(denominator));
+    }
+    
+    public Fraction negative(){
+        return new Fraction(numerator*(-1),denominator);
     }
     
     public Fraction sum(Fraction fraction){

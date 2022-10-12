@@ -9,16 +9,17 @@ import com.ei.math.fraction.util.MMC;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FractionSum {
+public class FractionSub {
     List<Step> list;
     
     {list = new ArrayList<>();}
-    
+     
     public FractionResponse minMultiploCommon(Fraction first, Fraction second){
         if(first.getDenominator().equals(second.getDenominator()))
-            return FractionCalculate.baseCase(list, first, second, "+");
+            return FractionCalculate.baseCase(list, first, second, "-");
         long mmc = MMC.solve(first.getDenominator(), second.getDenominator());
-        list.add(FractionFormatter.stepOneMMC(mmc, first, second));
+        second = second.isPositive()? second.negative() : second;
+        list.add(FractionFormatter.stepOneMMC(mmc, first,second));
         list.add(FractionFormatter.stepTwoMMC(mmc, first, second));
         list.add(FractionFormatter.stepThreeMMC(mmc, first, second));
         list.add(FractionFormatter.stepFourMMC(mmc, first, second));
@@ -34,17 +35,19 @@ public class FractionSum {
     
     public FractionResponse crossSystem(Fraction first, Fraction second){
         if(first.getDenominator().equals(second.getDenominator()))
-            return FractionCalculate.baseCase(list, first, second, "+");    
-        list.add(FractionFormatter.stepOneCrossSystem(first, second,"+"));
-        list.add(FractionFormatter.stepTwoCrossSystem(first, second,"+"));
+            return FractionCalculate.baseCase(list, first, second, "-");    
+        second = second.isPositive()? second.negative() : second;
+        list.add(FractionFormatter.stepOneCrossSystem(first, second,"-"));
+        list.add(FractionFormatter.stepTwoCrossSystem(first, second,"-"));
         list.add(FractionFormatter.stepThreeCrossSystem(first, second));
-        Fraction fraction = first.sum(second);
+        Fraction fraction = first.sub(second);
         if(!fraction.isIrreducible()){
             fraction = fraction.simplify();
-            list.add(new Step(4, fraction.text(), fraction.html(),""));
-        }        
+            list.add(FractionFormatter.finish(fraction,5));
+        } 
         return (new FractionResponse()).toBuilder().steps(list).fraction(fraction).build();
     }
-      
+   
     
 }
+ 

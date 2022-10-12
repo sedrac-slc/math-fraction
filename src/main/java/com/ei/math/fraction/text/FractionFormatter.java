@@ -83,12 +83,11 @@ final public class FractionFormatter {
        return (new Step()).toBuilder().text(text).html(html).codigo(3).message(msg).build();
     }    
 
-    public static Step stepOneDenominatorEquals(Fraction first, Fraction second) {
-        String sig  = second.isPositive() ? "+" : "-";
+    public static Step stepOneDenominatorEquals(Fraction first, Fraction second,String signal) {
         second = second.positive();
-        String num = first.getNumerator()+sig+second.getNumerator();
+        String num = first.getNumerator()+signal+second.getNumerator();
         String den = second.getDenominator().toString();
-        String msg = String.format(message.getString("step.one.den.equals"),sig,den);
+        String msg = String.format(message.getString("step.one.den.equals"),signal,den);
         return new Step().toBuilder()
                          .text("("+num+")/"+den)
                          .html(FractionHtml.template(num,den))
