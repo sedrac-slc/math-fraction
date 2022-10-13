@@ -17,6 +17,15 @@ public class FractionCalculate {
         return num;
     }  
   
+  public static long crossSig(Fraction first,Fraction second, String sig){
+        long num = 0;
+        if(sig.equals("+"))
+            num = first.getNumerator()*second.getDenominator()+first.getDenominator()*second.getNumerator();
+        if(sig.equals("-"))
+            num = first.getNumerator()*second.getDenominator()-first.getDenominator()*second.getNumerator();
+        return num;          
+    }
+  
     public static long numeratorsSumOrSub(Fraction first,Fraction second,String sig){
         long num = 0;
         if(sig.equals("+"))

@@ -45,6 +45,5 @@ public class FractionSum {
         }        
         return (new FractionResponse()).toBuilder().steps(list).fraction(fraction).build();
     }
-      
     
 }

@@ -115,7 +115,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }
     
     public boolean isIrreducible(){
-        if(denominator == 1 || numerator ==1) return true;
+        if(Math.abs(denominator) == 1 || Math.abs(numerator) ==1) return true;
         return !(isApparent() || denominator % numerator == 0);
     }
     

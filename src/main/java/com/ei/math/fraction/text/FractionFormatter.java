@@ -32,7 +32,7 @@ final public class FractionFormatter {
      * retorn expression (a*b+d*c)/e
      */
     public static Step stepTwoMMC(long mmc, Fraction first, Fraction second){
-       String msg = message.getString("step.two.mmc");        
+       String msg = String.format(message.getString("step.two.mmc"),mmc,mmc);        
        String text = FractionText.operationStepTwoMMC(first, second, mmc);
        String html = FractionHtml.operationStepTwoMMC(first, second, mmc);
        return (new Step()).toBuilder().text(text).html(html).codigo(2).message(msg).build();
@@ -41,7 +41,8 @@ final public class FractionFormatter {
      * retorn expression (a+b)/c
      */
     public static Step stepThreeMMC(long mmc, Fraction first, Fraction second){
-       String msg = String.format(message.getString("step.three.mmc"),"+");        
+       String sig = second.isPositive()? "+"  : "-";
+       String msg = String.format(message.getString("step.three.mmc"),sig,mmc);        
        String text = FractionText.operationStepThreeMMC(first, second, mmc);
        String html = FractionHtml.operationStepThreeMMC(first, second, mmc);
        return (new Step()).toBuilder().text(text).html(html).codigo(3).message(msg).build();
@@ -50,7 +51,9 @@ final public class FractionFormatter {
      * retorn expression a/b
      */
     public static Step stepFourMMC(long mmc, Fraction first, Fraction second){
-       String msg = message.getString("step.four.mmc");         
+       String sig = second.isPositive() ? "+" : "-";
+       String num = FractionCalculate.mmcSig(first, second,mmc, "+")+"";
+       String msg = String.format(message.getString("step.frac.result"),sig,num,mmc);        
        String text = FractionText.operationStepFourMMC(first, second, mmc);
        String html = FractionHtml.operationStepFourMMC(first, second, mmc);
        return (new Step()).toBuilder().text(text).html(html).codigo(4).message(msg).build();
@@ -68,7 +71,7 @@ final public class FractionFormatter {
      * retorn expression (a+b)/c
      */
     public static Step stepTwoCrossSystem(Fraction first, Fraction second,String signal){
-       String msg = String.format(message.getString("step.two.cross"),signal);
+       String msg = String.format(message.getString("step.two.cross"),signal,first.getDenominator()*second.getDenominator());
        String text = FractionText.operationStepTwoCrossSystem(first, second);
        String html = FractionHtml.operationStepTwoCrossSystem(first, second);
        return (new Step()).toBuilder().text(text).html(html).codigo(2).message(msg).build();
@@ -77,7 +80,10 @@ final public class FractionFormatter {
      * retorn expression (a+b)/c
      */
     public static Step stepThreeCrossSystem(Fraction first, Fraction second){
-       String msg = message.getString("step.three.cross");
+       String sig = second.isPositive() ? "+" : "-";
+       String num = FractionCalculate.crossSig(first, second, "+")+"";
+       String den = first.getDenominator()*second.getDenominator()+"";
+       String msg = String.format(message.getString("step.frac.result"),sig,num,den);
        String text = FractionText.operationStepThreeCrossSystem(first, second);
        String html = FractionHtml.operationStepThreeCrossSystem(first, second);
        return (new Step()).toBuilder().text(text).html(html).codigo(3).message(msg).build();
