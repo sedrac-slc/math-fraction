@@ -3,7 +3,7 @@ package com.ei.math.fraction.text;
 import com.ei.math.Step;
 import com.ei.math.fraction.Fraction;
 import com.ei.math.fraction.registory.FractionMessage;
-import com.ei.math.fraction.util.FractionCalculate;
+import com.ei.math.fraction.util.FractionPartStepMethods;
 
 final public class FractionFormatter {
     private static final  FractionMessage message;
@@ -52,7 +52,7 @@ final public class FractionFormatter {
      */
     public static Step stepFourMMC(long mmc, Fraction first, Fraction second){
        String sig = second.isPositive() ? "+" : "-";
-       String num = FractionCalculate.mmcSig(first, second,mmc, "+")+"";
+       String num = FractionPartStepMethods.mmcSig(first, second,mmc, "+")+"";
        String msg = String.format(message.getString("step.frac.result"),sig,num,mmc);        
        String text = FractionText.operationStepFourMMC(first, second, mmc);
        String html = FractionHtml.operationStepFourMMC(first, second, mmc);
@@ -81,7 +81,7 @@ final public class FractionFormatter {
      */
     public static Step stepThreeCrossSystem(Fraction first, Fraction second){
        String sig = second.isPositive() ? "+" : "-";
-       String num = FractionCalculate.crossSig(first, second, "+")+"";
+       String num = FractionPartStepMethods.crossSig(first, second, "+")+"";
        String den = first.getDenominator()*second.getDenominator()+"";
        String msg = String.format(message.getString("step.frac.result"),sig,num,den);
        String text = FractionText.operationStepThreeCrossSystem(first, second);
@@ -97,19 +97,62 @@ final public class FractionFormatter {
         return new Step().toBuilder()
                          .text("("+num+")/"+den)
                          .html(FractionHtml.template(num,den))
+                         .codigo(1)
                          .message(msg)
                          .build();
     }
 
     public static Step stepTwoDenominatorEquals(Fraction first, Fraction second,String signal) {
-        String num = FractionCalculate.numeratorsSumOrSub(first, second, signal)+"";
+        String num = FractionPartStepMethods.numeratorsSumOrSub(first, second, signal)+"";
         String den = second.getDenominator().toString();
         String msg = String.format(message.getString("step.two.den.equals"),den);        
         return new Step().toBuilder()
                          .text(num+"/"+den)
                          .html(FractionHtml.template(num,den))
+                         .codigo(2)
                          .message(msg)
                          .build();
     }
+
+    public static Step stepOneMult(Fraction first, Fraction second,int pos) {
+        String num = FractionPartStepMethods.numeratorMultDenominator(first, second, true);
+        String den = FractionPartStepMethods.numeratorMultDenominator(first, second, false);
+        String msg = String.format(message.getString("step.one.mult"),num,den);        
+        return (new Step()).toBuilder()
+                         .text("("+num+")/("+den+")").html(FractionHtml.template(num,den))
+                         .message(msg).codigo(pos)
+                         .build();                
+    }
+    
+   public static Step stepOneMult(Fraction first, Fraction second){
+        return stepOneMult(first, second, 1);
+   }    
+
+    public static Step stepTwoMult(Fraction first, Fraction second,int pos) {
+        String num = FractionPartStepMethods.numeratorMultDenominatorOper(first, second, true);
+        String den = FractionPartStepMethods.numeratorMultDenominatorOper(first, second, false);
+        String msg = String.format(message.getString("step.two.mult"),num,den,num,den);        
+        return (new Step()).toBuilder()
+                         .text(num+"/"+den).html(FractionHtml.template(num,den))
+                         .message(msg).codigo(pos)
+                         .build(); 
+    }
+    
+    public static Step stepTwoMult(Fraction first, Fraction second){
+         return stepTwoMult(first, second, 2);
+     }
+
+    public static Step stepOneDiv(Fraction first, Fraction second) {
+        second = second.reverse();
+        String num = FractionPartStepMethods.numeratorMultDenominator(first, second, true);
+        String den = FractionPartStepMethods.numeratorMultDenominator(first, second, false);
+        String msg = String.format(message.getString("step.one.div"),num,den);        
+        return (new Step()).toBuilder()
+                         .text("("+num+")/("+den+")").html(FractionHtml.template(num,den))
+                         .message(msg).codigo(1)
+                         .build();         
+    }
+    
+  
     
 }

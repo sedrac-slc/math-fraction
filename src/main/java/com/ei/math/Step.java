@@ -9,9 +9,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder(toBuilder = true,access = AccessLevel.PUBLIC)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true,access = AccessLevel.PUBLIC)
 public class Step {
     private Integer codigo;
     private String text;

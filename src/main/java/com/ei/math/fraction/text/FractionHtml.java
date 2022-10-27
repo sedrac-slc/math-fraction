@@ -1,7 +1,7 @@
 package com.ei.math.fraction.text;
 
 import com.ei.math.fraction.Fraction;
-import com.ei.math.fraction.util.FractionCalculate;
+import com.ei.math.fraction.util.FractionPartStepMethods;
 
 public class FractionHtml {
     
@@ -29,7 +29,7 @@ public class FractionHtml {
     }    
     
    public static String operationStepFourMMC(Fraction first,Fraction second, long mmc,String sig){
-        long num = FractionCalculate.mmcSig(first, second, mmc, sig);
+        long num = FractionPartStepMethods.mmcSig(first, second, mmc, sig);
         return template(num+"", mmc+"");
     }   
    

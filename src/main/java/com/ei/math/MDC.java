@@ -1,4 +1,4 @@
-package com.ei.math.fraction.util;
+package com.ei.math;
 
 public class MDC {
    
@@ -16,6 +16,9 @@ public class MDC {
         } while (resto != 0);
         return mdc;
     }
-    public static int solve(int x,int y){ return solve(x, y);}
+    
+    public static int solve(int x,int y){ 
+       return (int) solve(Integer.valueOf(x).longValue(), Integer.valueOf(y).longValue());
+    }
     
 }

@@ -3,7 +3,7 @@ package com.ei.math.fraction;
 import com.ei.math.fraction.exception.FractionDenominatorIsZeroException;
 import com.ei.math.fraction.text.FractionHtml;
 import com.ei.math.fraction.text.FractionText;
-import com.ei.math.fraction.util.MDC;
+import com.ei.math.MDC;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.Builder;
@@ -90,6 +90,13 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return FractionConverter.parse(numerator).div(of(denominator)).simplify();
     }     
     
+    /**
+     * compare denominator equals one(1)
+     * <pre>{@code
+     *     denominator == 1
+     * }</pre>
+     * @return  compare denominator equals one(1).
+     */
     public boolean isInteger(){
         return denominator == 1;
     }
@@ -115,8 +122,12 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }
     
     public boolean isIrreducible(){
-        if(Math.abs(denominator) == 1 || Math.abs(numerator) ==1) return true;
-        return !(isApparent() || denominator % numerator == 0);
+        long num = Math.abs(this.numerator);
+        long den = Math.abs(this.denominator);
+        
+        if(den == 1 || num ==1) return true;
+        if(num % den == 0 || den % num == 0) return false;
+        return MDC.solve(num, den) == 1;
     }
     
     public Fraction positive(){
@@ -132,7 +143,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
             return new Fraction(numerator + fraction.getNumerator(), denominator).simplify();
         long num = numerator * fraction.getDenominator() + denominator * fraction.getNumerator();
         long den = denominator * fraction.getDenominator();
-        return new Fraction(num, den).simplify();
+        return new Fraction(num, den);
     }
     
     public Fraction sub(Fraction fraction){
@@ -140,17 +151,15 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
             return new Fraction(numerator - fraction.getNumerator(), denominator).simplify();        
         long num = numerator * fraction.getDenominator() - denominator * fraction.getNumerator();
         long den = denominator * fraction.getDenominator();
-        return new Fraction(num, den).simplify();
+        return new Fraction(num, den);
     }    
     
     public Fraction div(Fraction fraction) {
-        return new Fraction(numerator * fraction.getDenominator(),denominator * fraction.getNumerator())
-                    .simplify();
+        return new Fraction(numerator * fraction.getDenominator(),denominator * fraction.getNumerator());
     }
 
     public Fraction mult(Fraction fraction) {
-        return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator())
-                    .simplify();
+        return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator());
     }    
     
     public Fraction simplify(){

@@ -1,4 +1,4 @@
-package com.ei.math.fraction.util;
+package com.ei.math;
 
 public class Numbers {
     
