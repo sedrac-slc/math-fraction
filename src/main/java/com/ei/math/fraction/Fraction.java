@@ -10,6 +10,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The {@code Fraction} class represents the set of fractional numbers.
+ * 
+ * <p> {@code Fractional numbers} are represented by two whole numbers (fraction terms) 
+ * separated by a horizontal dash (fraction dash). The top number (numerator) 
+ * can be any integer and the bottom number (denominator) must be non-zero,
+ * Examples of some fraction types: {@code 1/4, 3/4, 5/4}
+ * </p>
+ * 
+ * @author  Sedrac Lucas Calupeteca
+ * @since   1.0
+ */
 @Getter
 @Setter
 @Builder
@@ -52,75 +64,189 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
             denominator = Math.abs(denominator);
         }
     }
-    
+    /**
+      Returns a fraction where numerator and denominator are equal to 1
+     * @return new Fraction(1, 1);
+     */
     public static Fraction of(){return new Fraction(1, 1);}
+    /**
+      Returns a fraction the denominator is equal to 1
+     * @param numerator {@code Integer}.
+     * @return new Fraction(numerator, 1);
+     */    
     public static Fraction of(Integer numerator){return new Fraction(numerator, 1);}
+    /**
+      Returns a fraction the denominator is equal to 1
+     * @param numerator.
+     * @return new Fraction(numerator, 1L);
+     */       
     public static Fraction of(Long numerator){return new Fraction(numerator, 1L);}
+    /**
+      Returns the fraction of a decimal number
+     * @param number decimal number
+     * @return FractionConverter.parse(number).simplify();
+     */  
     public static Fraction of(Double number){
         return FractionConverter.parse(number).simplify();
     } 
-    
-    public static Fraction of(Integer numerator,Integer denominator){return new Fraction(numerator, denominator);}
+    /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Integer}
+     * @param denominator {@code Integer}
+     * @return new Fraction(numerator, denominator);
+     */      
+    public static Fraction of(Integer numerator,Integer denominator){
+        if(numerator.equals(denominator)) return of();
+        return new Fraction(numerator, denominator);
+    }
+    /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Long}
+     * @param denominator {@code Long}
+     * @return new Fraction(numerator, denominator);
+     */    
     public static Fraction of(Long numerator,Long denominator){return new Fraction(numerator, denominator);}
+    /**
+      Returns the fraction where the numerator and denominator are decimal numbers
+     * @param numerator {@code double} to be converted to a Fraction 
+     * @param denominator {@code double} to be converted to a Fraction
+     * <pre>{@code
+     *    if(numerator.equals(denominator)) return of();
+     *    if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
+     * }</pre> 
+     * <em>the new fraction will be the division of the fractions</em>
+     * @return FractionConverter.parse(numerator).div(FractionConverter.parse(denominator)).simplify();
+     */       
     public static Fraction of(Double numerator,Double denominator){
-        if(numerator.equals(denominator)) of(1);
+        if(numerator.equals(denominator)) return of();
         if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(FractionConverter.parse(denominator)).simplify();
     }    
-        
+    /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Integer} to be converted to a Long.
+     * @param denominator {@code Long}
+     * @return new Fraction(numerator.longValue(), denominator);
+     */            
     public static Fraction of(Integer numerator,Long denominator){return new Fraction(numerator.longValue(), denominator);}
+     /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Integer}
+     * @param denominator {@code Long} to be converted to a Long
+     * @return new Fraction(numerator, denominator.longValue());
+     */  
     public static Fraction of(Long numerator,Integer denominator){return new Fraction(numerator, denominator.longValue());}
-    
+     /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Integer} to be converted to a Fraction
+     * @param denominator {@code Double} to be converted to a Fraction
+     * <pre>{@code
+     *    if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
+     * }</pre> 
+     * <em>the new fraction will be the division of the fractions</em>
+     * @return of(numerator).div(FractionConverter.parse(denominator)).simplify();
+     */      
     public static Fraction of(Integer numerator,Double denominator){
         if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return of(numerator).div(FractionConverter.parse(denominator)).simplify();
     }
+     /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Double} to be converted to a Fraction
+     * @param denominator {@code Integer} to be converted to a Fraction
+     * <pre>{@code
+     *    if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
+     * }</pre> 
+     * <em>the new fraction will be the division of the fractions</em>
+     * @return FractionConverter.parse(numerator).div(of(denominator)).simplify();
+     */     
     public static Fraction of(Double numerator,Integer denominator){
          if(denominator.equals(0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(of(denominator)).simplify();
     }    
-    
+     /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Long} to be converted to a Fraction
+     * @param denominator {@code Double} to be converted to a Fraction
+     * <pre>{@code
+     *    if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
+     * }</pre> 
+     * <em>the new fraction will be the division of the fractions</em>
+     * @return of(numerator).div(FractionConverter.parse(denominator)).simplify();
+     */       
     public static Fraction of(Long numerator,Double denominator){
          if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
         return of(numerator).div(FractionConverter.parse(denominator)).simplify();
     }
-    
+     /**
+      Returns the fraction with the numerator, and denominator values
+     * @param numerator {@code Double} to be converted to a Fraction
+     * @param denominator {@code Long} to be converted to a Fraction
+     * <pre>{@code
+     *    if(denominator.equals(0.0)) throw new FractionDenominatorIsZeroException();
+     * }</pre> 
+     * <em>the new fraction will be the division of the fractions</em>
+     * @return FractionConverter.parse(numerator).div(of(denominator)).simplify();
+     */       
     public static Fraction of(Double numerator,Long denominator){
         if(denominator.equals(0)) throw new FractionDenominatorIsZeroException();
         return FractionConverter.parse(numerator).div(of(denominator)).simplify();
-    }     
-    
+    }         
     /**
-     * compare denominator equals one(1)
+     * compare if the denominator is equal to 1
      * <pre>{@code
-     *     denominator == 1
+     *     denominator == 1;
      * }</pre>
-     * @return  compare denominator equals one(1).
+     * @return denominator == 1
      */
     public boolean isInteger(){
         return denominator == 1;
     }
-    
+    /**
+     *<p>For a fraction to be positive, the denominator and numerator must have the same sign</p>
+     *<strong>Examples</strong> {@code true: 1/4, -2/-7 | false: -2/3, 1/-8} 
+     * @return (numerator &gt; 0 &amp;&amp; denominator &gt; 0) || (numerator &lt; 0 &amp;&amp; denominator &lt; 0);
+     */    
     public boolean isPositive() {
        return (numerator > 0 && denominator > 0) || (numerator < 0 && denominator < 0);
     }
-
+    /**
+     *<p>For a fraction to be negative, the denominator and numerator must have a different sign</p>
+     *<strong>Examples</strong> {@code false: 1/4, -2/-7 | true: -2/3, 1/-8} 
+     * @return !isPositive();
+     */  
     public boolean isNegative() {
         return !isPositive();
     }
-    
+    /**
+     *<p>Proper Fraction: the numerator is less than the denominator</p>
+     *<strong>Examples</strong> {@code true: 1/4, 2/ | false: 4/3, 9/8} 
+     * @return numerator &lt; denominator;
+     */      
     public boolean isProper(){
         return numerator < denominator;
     }
-    
+    /**
+     *<p>Improper Fraction: the numerator is greater than the denominator</p>
+     *<strong>Examples</strong> {@code false: 1/4, 2/5 | true: 4/3, 9/8} 
+     * @return numerator &gt; denominator;
+     */      
     public boolean isImproper(){
         return numerator > denominator;
     }    
-    
+   /**
+     *Apparent Fraction: the numerator is divisible denominator
+     *<strong>Examples</strong> {@code true: 8/4, 6/3 | false: 4/3, 9/8} 
+     * @return numerator % denominator == 0;
+     */    
     public boolean isApparent(){
         return numerator % denominator == 0;
     }
-    
+   /**
+     *<p>Irreducible Fraction: cannot be simplified</p>
+     *<strong>Examples</strong> {@code true: 3/4, 2/3 | false: 4/8, 9/18} 
+     * @return numerator % denominator == 0;
+     */       
     public boolean isIrreducible(){
         long num = Math.abs(this.numerator);
         long den = Math.abs(this.denominator);
@@ -129,58 +255,132 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         if(num % den == 0 || den % num == 0) return false;
         return MDC.solve(num, den) == 1;
     }
-    
+   /**
+     *<p>Returns Positive fraction, numerator and denominator have the same sign</p>
+     * @return new Fraction(Math.abs(numerator), Math.abs(denominator));
+     */         
     public Fraction positive(){
         return new Fraction(Math.abs(numerator), Math.abs(denominator));
     }
-    
+   /**
+     *<p>Returns Positive fraction, numerator and denominator have different sign</p>
+     * @return new Fraction(numerator*(-1),denominator);
+     */      
     public Fraction negative(){
         return new Fraction(numerator*(-1),denominator);
     }
-    
+   /**
+     Returns the sum of two fractions, using the cross-system method
+     * <p>{@code cross-system method}</p>
+     * <pre>
+     *      a/b+c/d = [(a*d)+(c*b)]/(b.d)
+     *      1/2+3/5 = [(1*5)+(3*2)]/(2*5) = [5+6]/10 = 11/10
+     * </pre>
+     * <pre>{
+        if(denominator.equals(fraction.getDenominator()))
+            return new Fraction(numerator + fraction.getNumerator(), denominator).simplify();
+        long num = numerator * fraction.getDenominator() + denominator * fraction.getNumerator();
+        long den = denominator * fraction.getDenominator();
+     *  }</pre>
+     * @param fraction
+     * @return  new Fraction(num, den).simplify();
+     */      
     public Fraction sum(Fraction fraction){
         if(denominator.equals(fraction.getDenominator()))
             return new Fraction(numerator + fraction.getNumerator(), denominator).simplify();
         long num = numerator * fraction.getDenominator() + denominator * fraction.getNumerator();
         long den = denominator * fraction.getDenominator();
-        return new Fraction(num, den);
+        return new Fraction(num, den).simplify();
     }
-    
+  /**
+     Returns the sub of two fractions, using the cross-system method
+     * <p>{@code cross-system method}</p>
+     * <pre>
+     *      a/b-c/d = [(a*d)-(c*b)]/(b.d)
+     *      1/2-3/5 = [(1*5)-(3*2)]/(2*5) = [5-6]/10 = -1/10
+     * </pre>
+      * <pre>{
+        if(denominator.equals(fraction.getDenominator()))
+            return new Fraction(numerator - fraction.getNumerator(), denominator).simplify();
+        long num = numerator * fraction.getDenominator() - denominator * fraction.getNumerator();
+        long den = denominator * fraction.getDenominator();
+     *  }</pre>
+     * @param fraction
+     * @return new Fraction(num, den).simplify();
+     */       
     public Fraction sub(Fraction fraction){
         if(denominator.equals(fraction.getDenominator()))
             return new Fraction(numerator - fraction.getNumerator(), denominator).simplify();        
         long num = numerator * fraction.getDenominator() - denominator * fraction.getNumerator();
         long den = denominator * fraction.getDenominator();
-        return new Fraction(num, den);
+        return new Fraction(num, den).simplify();
     }    
-    
+ /**
+     Returns the div of two fractions
+     * <pre>
+     *      a/b:c/d = (a*d)/(c*d) | 1/3:4/5 = 1*5/4*3 = 5/12
+     * </pre>
+     * @param fraction
+     * @return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();;
+     */      
     public Fraction div(Fraction fraction) {
-        return new Fraction(numerator * fraction.getDenominator(),denominator * fraction.getNumerator());
+        return new Fraction(numerator * fraction.getDenominator(),denominator * fraction.getNumerator()).simplify();
     }
-
+ /**
+     Returns the div of two fractions
+     * <pre>
+     *      a/b*c/d = (a*c)/(b*d) | 1/3*4/5 = 1*4/3*5 = 4/15
+     * </pre>
+     * @param fraction
+     * @return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();;
+     */  
     public Fraction mult(Fraction fraction) {
-        return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator());
+        return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();
     }    
-    
+ /**
+     Returns the irreducible fraction
+     * @see com.ei.math.MDC;
+     * MDC(greatest common divisor)
+     * <pre>{
+     * long mdc = MDC.solve(numerator, denominator);
+     * }</pre> 
+     * @return new Fraction(numerator / mdc, denominator / mdc);
+     */     
     public Fraction simplify(){
         long mdc = MDC.solve(numerator, denominator);
         return new Fraction(numerator / mdc, denominator / mdc);
     }
-    
-    public Fraction pow(int expoente){
-        return pow(Integer.valueOf(expoente).longValue());
+ /**
+     Returns the power of the fraction
+     * @param exponent
+     * @see com.ei.math.MDC;
+     * <pre>{
+     * long mdc = MDC.solve(numerator, denominator);
+     * }</pre> 
+     * @return new Fraction(numerator / mdc, denominator / mdc);
+     */      
+    public Fraction pow(int exponent){
+        return pow(Integer.valueOf(exponent).longValue());
     }
-    
-    public Fraction pow(long number) {
-        if (number > 0) {
-            long num = (long) Math.pow(numerator, number);
-            long den = (long) Math.pow(denominator, number);
-            return new Fraction(num, den);
-        } else if (number < 0) {
-            number = Math.abs(number);
-            long num = (long) Math.pow(numerator, number);
-            long den = (long) Math.pow(denominator, number);
-            return new Fraction(den, num);
+ /**
+     Returns the power of the fraction
+     * @param exponent
+     * @see com.ei.math.MDC;
+     * <pre>{
+     * long mdc = MDC.solve(numerator, denominator);
+     * }</pre> 
+     * @return new Fraction(numerator / mdc, denominator / mdc);
+     */     
+    public Fraction pow(long exponent) {
+        if (exponent > 0) {
+            long num = (long) Math.pow(numerator, exponent);
+            long den = (long) Math.pow(denominator, exponent);
+            return new Fraction(num, den).simplify();
+        } else if (exponent < 0) {
+            exponent = Math.abs(exponent);
+            long num = (long) Math.pow(numerator, exponent);
+            long den = (long) Math.pow(denominator, exponent);
+            return new Fraction(den, num).simplify();
         }
         return new Fraction(1, 1);
     }   
@@ -217,10 +417,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return FractionHtml.template(this,mmc, signal);
     }    
     
-    /*
-        en=>
-        pt=>retorna a inversa da fração 2/5->5/2
-    */
     public Fraction reverse() throws FractionDenominatorIsZeroException{
       if(Objects.equals(this.numerator, 0.0)) throw new FractionDenominatorIsZeroException();
       return new Fraction(denominator,numerator);
@@ -254,7 +450,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
 
     @Override
     public String toString() {
-        return "Fraction{" + "numerator=" + numerator + ", denominator=" + denominator + '}';
+        return text();
     }
     
     @Override
@@ -266,4 +462,8 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     @Override
     public double doubleValue() { return numerator.doubleValue() / denominator.doubleValue();}   
     
+    
+    public static void main(String[] args) {
+        Fraction.of();
+    }
 }
