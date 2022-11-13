@@ -15,6 +15,8 @@ import com.ei.math.fraction.util.FractionUtil;
  * @since   1.0
  */
 public class FractionSub extends FractionOper{
+    public final static String METHOD_MMC = "mmc";
+    public final static String METHOD_CROSS_SYSTEM = "crossSystem";
     /**
      * Returns the subtraction of two fractions using the least common multiple method
      * @param first {@code Fraction} first fraction
@@ -106,11 +108,11 @@ public class FractionSub extends FractionOper{
      /**
      * Return the subtraction of expression using the standard method (cross system)
      * @param expression {@code String} represents the regular expression. Example: 5/7-3/5
-     * @return solve(expression, "crossSystem");
+     * @return solve(expression, FractionSub.METHOD_CROSS_SYSTEM);
      */     
     @Override
     public FractionResult solve(String expression) {
-        return solve(expression,"crossSystem");
+        return solve(expression,FractionSub.METHOD_CROSS_SYSTEM);
     }
     /**
      * Return the subtraction of expression using the standard method (cross system)
@@ -123,7 +125,7 @@ public class FractionSub extends FractionOper{
     @Override
     public FractionResult solve(Fraction first, Fraction second, String method) {
         switch(method){
-            case "mmc":
+            case FractionSub.METHOD_MMC:
                 return minMultiploCommon(first, second);
             default:
                 return crossSystem(first, second);
