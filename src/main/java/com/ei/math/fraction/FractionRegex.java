@@ -1,5 +1,11 @@
 package com.ei.math.fraction;
-
+/**
+ * {@code FractionRegex} is a class that contains regular expressions to 
+ * validate whether a fraction or operation between fraction.
+ * 
+ * @author  Sedrac Lucas Calupeteca
+ * @since   1.0
+ */
 public final class FractionRegex {
     private static final String FRACTION_NOT_SIGNAL = "\\d+(\\.\\d+)?(/\\d+(\\.\\d+)?)?";
     

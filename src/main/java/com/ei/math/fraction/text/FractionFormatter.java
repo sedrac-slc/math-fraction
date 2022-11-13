@@ -4,15 +4,61 @@ import com.ei.math.Step;
 import com.ei.math.fraction.Fraction;
 import com.ei.math.fraction.registory.FractionMessage;
 import com.ei.math.fraction.util.FractionPartStepMethods;
-
+/**
+ *{@code FractionFormatter} is a class that contains methods that generate the 
+ * steps for solving fraction operations
+ * 
+ * @author  Sedrac Lucas Calupeteca
+ * @since   1.0
+ */
 final public class FractionFormatter {
     private static final  FractionMessage message;
     
     static{
         message = new FractionMessage();
     }
- /*
-     * retorn expression a/b(c)+d/e(f) 
+    /**
+     * Returns the expression of a fraction addition or subtraction operation
+     * @param first {@code Fraction} first fraction
+     * @param second {@code Fraction} second fraction
+     * <pre>{
+     * String msg = String.format(message.getString("step.start"));
+     * }</pre>
+     * @return  (new Step()).toBuilder().text(fraction.text()).html(fraction.html()).message(msg).codigo(pos).build();
+     */
+    public static Step startSumOrSub(Fraction first, Fraction second){
+       String msg = String.format(message.getString("step.start"));
+       return (new Step()).toBuilder().text(FractionText.join(first, second)).html(FractionHtml.join(first, second)).message(msg).codigo(0).build();
+    }  
+    /**
+     * Returns the expression of a fraction multiplecation or division operation
+     * @param first {@code Fraction} first fraction
+     * @param second {@code Fraction} second fraction
+     * <pre>{
+     * String msg = String.format(message.getString("step.start"));
+     * }</pre>
+     * @param signal
+     * @return  (new Step()).toBuilder().text(fraction.text()).html(fraction.html()).message(msg).codigo(pos).build();
+     */
+    public static Step starMultOrDiv(Fraction first, Fraction second, String signal){
+       String msg = String.format(message.getString("step.start"));
+       if(second.isNegative() && first.isPositive()){
+          first = first.negative(); second = second.positive();
+       }if(first.isNegative() && second.isNegative()){
+          first = first.positive(); second = second.positive();
+       }
+       return (new Step()).toBuilder()
+                          .text(FractionText.join(first, second,signal)).html(FractionHtml.join(first, second,signal))
+                          .message(msg).codigo(0).build();
+    }     
+    /**
+     * Returns the last solve step a fraction operation
+     * @param fraction
+     * @param pos
+     * <pre>{
+     * String msg = String.format(message.getString("step.frac.irreducible"));
+     * }</pre>
+     * @return  (new Step()).toBuilder().text(fraction.text()).html(fraction.html()).message(msg).codigo(pos).build();
      */
     public static Step finish(Fraction fraction, int pos){
        String msg = String.format(message.getString("step.frac.irreducible"));
@@ -115,6 +161,9 @@ final public class FractionFormatter {
     }
 
     public static Step stepOneMult(Fraction first, Fraction second,int pos) {
+        if(first.isNegative() && second.isNegative()){
+            first = first.positive(); second = second.positive();
+        }
         String num = FractionPartStepMethods.numeratorMultDenominator(first, second, true);
         String den = FractionPartStepMethods.numeratorMultDenominator(first, second, false);
         String msg = String.format(message.getString("step.one.mult"),num,den);        
@@ -143,6 +192,11 @@ final public class FractionFormatter {
      }
 
     public static Step stepOneDiv(Fraction first, Fraction second) {
+       if(second.isNegative() && first.isPositive()){
+          first = first.negative(); second = second.positive();
+       }if(first.isNegative() && second.isNegative()){
+          first = first.positive(); second = second.positive();
+       }        
         second = second.reverse();
         String num = FractionPartStepMethods.numeratorMultDenominator(first, second, true);
         String den = FractionPartStepMethods.numeratorMultDenominator(first, second, false);
@@ -150,6 +204,17 @@ final public class FractionFormatter {
         return (new Step()).toBuilder()
                          .text("("+num+")/("+den+")").html(FractionHtml.template(num,den))
                          .message(msg).codigo(1)
+                         .build();         
+    }
+    
+    public static Step stepSimply(Fraction fraction,int pos) {
+        long mdc = fraction.mdc();
+        String msg = String.format(message.getString("step.simply"),mdc);        
+        return (new Step()).toBuilder()
+                         .text(FractionText.simply(fraction, mdc))
+                         .html(FractionHtml.simply(fraction, mdc))
+                         .message(msg)
+                         .codigo(pos)
                          .build();         
     }
     

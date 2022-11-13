@@ -73,10 +73,15 @@ public class FractionHtml {
        return "proper";
    }
    
-   private static String template(Fraction fraction,boolean signal,long mmc, boolean veriy){
+   private static String template(Fraction fraction,boolean signal,long mmc, boolean veriy, String sig){
        String sinal=  fraction.isNegative() ? "<div class=\"signal minus\">-</div>" : "";
+       String sigDefault = "plus";
+       
+       if(sig != null && sig.equals("*")) sigDefault = "mult";
+       if(sig != null && sig.equals(":")) sigDefault = "div";
+       
        if(signal && fraction.isPositive())
-            sinal = "<div class=\"signal plus\">+</div>" ;
+            sinal = "<div class=\"signal "+sigDefault+"\">"+(sigDefault.equals("plus") ? "+": sig)+"</div>" ;
    
        String denominator, parentes;
        fraction = fraction.isNegative() ? fraction.positive() : fraction;
@@ -101,15 +106,19 @@ public class FractionHtml {
    }
    
    public static String template(Fraction fraction,long mmc,boolean signal){
-       return template(fraction,signal,mmc,true);
+       return template(fraction,signal,mmc,true,null);
    }
    
    public static String template(Fraction fraction,long mmc){
-       return template(fraction,false,mmc,true);
+       return template(fraction,false,mmc,true,null);
    }
    
    public static String template(Fraction fraction,boolean signal){
-       return template(fraction,signal,0,false);
+       return template(fraction,signal,0,false,null);
+   }
+   
+   public static String template(Fraction fraction,boolean signal,String sig){
+       return template(fraction,signal,0,false,sig);
    }
    
    public static String template(Fraction fraction){
@@ -123,5 +132,26 @@ public class FractionHtml {
                 "<div class=\"denominator\">"+denominator+"</div>"+
               "</div>";
    }
+   
+      
+   public static String simply(Fraction fraction, long mdc){
+       String num = fraction.getNumerator() +":"+ mdc;
+       String den = fraction.getDenominator() +":"+ mdc;
+       return template(num, den);
+   }
+   
+   public static String join(Fraction first, Fraction second){
+       return "<section class=\"fraction-arithmetic\">"
+               +first.html()+second.html(true)+
+              "</section>";
+   }
+   
+      public static String join(Fraction first, Fraction second, String signal){
+       return "<section class=\"fraction-arithmetic\">"
+               +first.html()+second.html(true,signal)+
+              "</section>";
+   }
+   
+   
    
 }

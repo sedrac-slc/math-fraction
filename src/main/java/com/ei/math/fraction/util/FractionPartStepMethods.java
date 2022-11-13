@@ -2,7 +2,7 @@ package com.ei.math.fraction.util;
 
 import com.ei.math.Step;
 import com.ei.math.fraction.Fraction;
-import com.ei.math.fraction.FractionResponse;
+import com.ei.math.fraction.FractionResult;
 import com.ei.math.fraction.text.FractionFormatter;
 import java.util.List;
 
@@ -35,16 +35,16 @@ public class FractionPartStepMethods {
         return num;
     }  
     
-  public static FractionResponse baseCase(List<Step> list,Fraction first, Fraction second,String signal){
+  public static FractionResult baseCase(List<Step> list,Fraction first, Fraction second,String signal){
+        if(signal.equals("-")) second = second.isPositive() ? second.negative() : second;
+        list.add(FractionFormatter.startSumOrSub(first,second));
         list.add(FractionFormatter.stepOneDenominatorEquals(first, second,signal));
         list.add(FractionFormatter.stepTwoDenominatorEquals(first, second,signal));
         long num = numeratorsSumOrSub(first, second, signal);
         Fraction fraction = Fraction.of(num,second.getDenominator());
-        if(!fraction.isIrreducible()){
-            fraction = fraction.simplify();
-            list.add(FractionFormatter.finish(fraction, 3));
-        }
-        return (new FractionResponse()).toBuilder().steps(list).status(true).fraction(fraction).build();
+  
+         FractionPartStepMethods.simplyVerif(list, fraction, 3, 4);
+        return (new FractionResult()).toBuilder().steps(list).status(true).fraction(fraction).build();
     }    
   
   public static String numeratorMultDenominator(Fraction first,Fraction second, boolean isNumeratorOrDenominator){
@@ -60,6 +60,15 @@ public class FractionPartStepMethods {
       return isNumeratorOrDenominator
        ? first.getNumerator()*second.getNumerator()+""
        : first.getDenominator()*second.getDenominator()+"";
-  }  
+  } 
+  
+    
+     public static void simplyVerif(List<Step> list, Fraction fraction, int posSimply, int posFinish) {
+        if(!fraction.isIrreducible()){
+            list.add(FractionFormatter.stepSimply(fraction, posSimply));
+            fraction = fraction.simplify();
+            list.add(FractionFormatter.finish(fraction,posFinish));
+        }
+    }  
   
 }

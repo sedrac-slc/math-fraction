@@ -235,12 +235,26 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return numerator > denominator;
     }    
    /**
-     *Apparent Fraction: the numerator is divisible denominator
+     *<p>Apparent Fraction: the numerator is divisible denominator</p>
      *<strong>Examples</strong> {@code true: 8/4, 6/3 | false: 4/3, 9/8} 
      * @return numerator % denominator == 0;
      */    
     public boolean isApparent(){
         return numerator % denominator == 0;
+    }
+    /**
+     *<p>Equivalent Fractions: are those that are apparently different, but have the same result.</p>
+     *<strong>Examples</strong> {@code true: 1/2 and 2/4 | false: 1/3 and 9/8} 
+     * <pre>
+     *      a/b = c/d =&gt; a*d = b*c 
+     *      1/2 = 2/4 =&gt; 1*4 = 2*2 =&gt; 4 = 4 (true) is equivalent
+     *      1/3 = 9/8 =&gt; 1*8 = 3*9 =&gt; 8 = 27 (false) is not equivalent
+     * </pre>
+     * @param fraction
+     * @return compareTo(fraction) == 0;
+     */    
+    public boolean  isEquivalent(Fraction fraction){
+      return compareTo(fraction) == 0;
     }
    /**
      *<p>Irreducible Fraction: cannot be simplified</p>
@@ -273,7 +287,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      Returns the sum of two fractions, using the cross-system method
      * <p>{@code cross-system method}</p>
      * <pre>
-     *      a/b+c/d = [(a*d)+(c*b)]/(b.d)
+     *      <strong>formula:</strong> a/b+c/d = [(a*d)+(c*b)]/(b.d)
      *      1/2+3/5 = [(1*5)+(3*2)]/(2*5) = [5+6]/10 = 11/10
      * </pre>
      * <pre>{
@@ -296,7 +310,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      Returns the sub of two fractions, using the cross-system method
      * <p>{@code cross-system method}</p>
      * <pre>
-     *      a/b-c/d = [(a*d)-(c*b)]/(b.d)
+     *     <strong>formula:</strong> a/b-c/d = [(a*d)-(c*b)]/(b.d)
      *      1/2-3/5 = [(1*5)-(3*2)]/(2*5) = [5-6]/10 = -1/10
      * </pre>
       * <pre>{
@@ -316,9 +330,9 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return new Fraction(num, den).simplify();
     }    
  /**
-     Returns the div of two fractions
+     <p>Returns the div of two fractions</p>
      * <pre>
-     *      a/b:c/d = (a*d)/(c*d) | 1/3:4/5 = 1*5/4*3 = 5/12
+     *     <strong>formula:</strong> a/b:c/d = (a*d)/(c*d) | 1/3:4/5 = 1*5/4*3 = 5/12
      * </pre>
      * @param fraction
      * @return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();;
@@ -327,9 +341,9 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return new Fraction(numerator * fraction.getDenominator(),denominator * fraction.getNumerator()).simplify();
     }
  /**
-     Returns the div of two fractions
+     <p>Returns the div of two fractions</p>
      * <pre>
-     *      a/b*c/d = (a*c)/(b*d) | 1/3*4/5 = 1*4/3*5 = 4/15
+     *     <strong>formula:</strong> a/b*c/d = (a*c)/(b*d) | 1/3*4/5 = 1*4/3*5 = 4/15
      * </pre>
      * @param fraction
      * @return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();;
@@ -338,11 +352,11 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         return new Fraction(numerator * fraction.getNumerator(),denominator * fraction.getDenominator()).simplify();
     }    
  /**
-     Returns the irreducible fraction
+     <p>Returns the irreducible fraction</p>
      * @see com.ei.math.MDC;
-     * MDC(greatest common divisor)
+     * <strong>formula:</strong> calculate the greatest common divisor (GCD or MDC) between the numerator and denominator, then divide the numerator and denominator with (GCD or MDC)
      * <pre>{
-     * long mdc = MDC.solve(numerator, denominator);
+     *  long mdc = MDC.solve(numerator, denominator);
      * }</pre> 
      * @return new Fraction(numerator / mdc, denominator / mdc);
      */     
@@ -350,6 +364,14 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         long mdc = MDC.solve(numerator, denominator);
         return new Fraction(numerator / mdc, denominator / mdc);
     }
+ /**
+     <p>Returns the  greatest common divisor (GCD or MDC) between the numerator and denominator,</p>
+     * @see com.ei.math.MDC;
+     * @return MDC.solve(Math.abs(numerator),Math.abs(denominator))
+     */  
+     public long mdc(){
+         return MDC.solve(Math.abs(numerator),Math.abs(denominator));
+     }
  /**
      Returns the power of the fraction
      * @param exponent
@@ -367,9 +389,18 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      * @param exponent
      * @see com.ei.math.MDC;
      * <pre>{
-     * long mdc = MDC.solve(numerator, denominator);
+     *  if (exponent &gt; 0) {
+     *       long num = (long) Math.pow(numerator, exponent);
+     *       long den = (long) Math.pow(denominator, exponent);
+     *       return new Fraction(num, den).simplify();
+     *   } else if (exponent &lt; 0) {
+     *       exponent = Math.abs(exponent);
+     *       long num = (long) Math.pow(numerator, exponent);
+     *       long den = (long) Math.pow(denominator, exponent);
+     *       return new Fraction(den, num).simplify();
+     *   }
      * }</pre> 
-     * @return new Fraction(numerator / mdc, denominator / mdc);
+     * @return new Fraction(1,1);
      */     
     public Fraction pow(long exponent) {
         if (exponent > 0) {
@@ -384,39 +415,105 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         }
         return new Fraction(1, 1);
     }   
-    
+ /**
+     Returns the fraction in this format: 1/2, -1/4
+     * @see com.ei.math.fraction.text.FractionText;
+     * @return FractionText.template(this);
+     */     
     public String text(){
         return FractionText.template(this);
     }
-    
+ /**
+     Returns the fraction in this format: +1/2, -1/4
+     * @param signal {@code boolean} to not hide the plus sign (+)
+     * @see com.ei.math.fraction.text.FractionText;
+     * @return FractionText.template(this, signal);
+     */     
     public String text(boolean signal){
         return FractionText.template(this,signal);
     }
-    
+ /**
+     Returns the fraction in this format: +1/2, -1/4
+     * @param signal {@code boolean} verify sign
+     * @param sig {@code boolean} to not hide the plus sign
+     * @see com.ei.math.fraction.text.FractionText;
+     * @return FractionText.template(this, signal,sig);
+     */     
+    public String text(boolean signal,String sig){
+        return FractionText.template(this,signal,sig);
+    }    
+  /**
+     Returns the fraction in this format: 1/2(5), -1/4(7)
+     * @param mmc {@code long} least common multiple
+     * @see com.ei.math.fraction.text.FractionText;
+     * @return FractionText.template(this, mmc);
+     */    
     public String text(long mmc){
         return FractionText.template(this,mmc);
     }
-    
+  /**
+     Returns the fraction in this format: +1/2(5), -1/4(7)
+    * @param signal {@code boolean} to not hide the plus sign (+)
+     * @param mmc {@code long} least common multiple
+     * @see com.ei.math.fraction.text.FractionText;
+     * @return FractionText.template(this, mmc, signal);
+     */       
     public String text(long mmc, boolean signal){
         return FractionText.template(this,mmc, signal);
     }       
-    
+ /**
+     Returns the fraction in this format with html code: 1/2, -1/4
+     * @see com.ei.math.fraction.text.FractionHtml;
+     * @return FractionHtml.template(this);
+     */     
     public String html(){
         return FractionHtml.template(this);
     }
-    
+ /**
+     Returns the fraction in this format with html code: +1/2, -1/4
+     * @param signal {@code boolean} to not hide the plus sign (+)
+     * @see com.ei.math.fraction.text.FractionHtml;
+     * @return FractionHtml.template(this, signal);
+     */       
     public String html(boolean signal){
         return FractionHtml.template(this,signal);
     }
-    
+ /**
+     Returns the fraction in this format with html code: +1/2, -1/4
+     * @param signal {@code boolean} verify sign (+)
+     * @param sig  {@code boolean} to not hide the  sign 
+     * @see com.ei.math.fraction.text.FractionHtml;
+     * @return FractionHtml.template(this, signal,sig);
+     */       
+    public String html(boolean signal,String sig){
+        return FractionHtml.template(this,signal,sig);
+    }    
+  /**
+     Returns the fraction in this format with html code: 1/2(5), -1/4(7)
+     * @param mmc {@code long} least common multiple
+     * @see com.ei.math.fraction.text.FractionHtml;
+     * @return FractionHtml.template(this, mmc);
+     */     
     public String html(long mmc){
         return FractionHtml.template(this,mmc);
     }
-    
+  /**
+    Returns the fraction in this format with html code: +1/2(5), -1/4(7)
+    * @param signal {@code boolean} to not hide the plus sign (+)
+     * @param mmc {@code long} least common multiple
+     * @see com.ei.math.fraction.text.FractionHtml;
+     * @return FractionHtml.template(this, mmc, signal);
+     */      
     public String html(long mmc, boolean signal){
         return FractionHtml.template(this,mmc, signal);
     }    
-    
+  /**
+    Returns an inverse of the fraction {@code inverse(1/6) = 6/1}
+    *<pre>{
+    * if(Objects.equals(this.numerator, 0.0)) throw new FractionDenominatorIsZeroException();
+    * }</pre>
+    *@return new Fraction(denominator,numerator);
+    */      
     public Fraction reverse() throws FractionDenominatorIsZeroException{
       if(Objects.equals(this.numerator, 0.0)) throw new FractionDenominatorIsZeroException();
       return new Fraction(denominator,numerator);
@@ -429,41 +526,67 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
         hash = 97 * hash + Objects.hashCode(this.denominator);
         return hash;
     }
-
+  /**
+    Checks if fractions are equals.
+    * @param obj
+    *<pre>{
+    *   if(!(obj instanceof Fraction)) return false;
+    *    Fraction fraction = (Fraction) obj;
+    * }</pre>
+    *@return numerator.equals(fraction.getNumerator()) && denominator.equals(fraction.getDenominator());
+    */  
     @Override
     public boolean equals(Object obj) {
       if(!(obj instanceof Fraction)) return false;
       Fraction fraction = (Fraction) obj;
-      return numerator.equals(fraction.getNumerator())
-          && denominator.equals(fraction.getDenominator());
+      return numerator.equals(fraction.getNumerator()) && denominator.equals(fraction.getDenominator());
     }
-    /*
-        en=>fraction:
-        pt=>fração: compara se as frações são equivalente 1/2=2/4,1/3=1/3
-    */
+  /**
+    Checks if fractions are equivalent.
+    * @param fraction 
+    *<pre>{
+    *   long num = numerator * fraction.getDenominator();
+        long den = denominator * fraction.getNumerator();
+    * }</pre>
+    *@return Long.valueOf(num).compareTo(den);
+    */      
     @Override
     public int compareTo(Fraction fraction) {
         long num = numerator * fraction.getDenominator();
         long den = denominator * fraction.getNumerator();
         return Long.valueOf(num).compareTo(den);
     }
-
+ /**
+     Returns the fraction in this format: 1/2, -1/4
+     * @return text();
+     */ 
     @Override
     public String toString() {
         return text();
     }
-    
+  /**
+     Returns the result of the operation
+     * @return numerator / denominator;
+     */    
     @Override
     public long longValue() {return numerator / denominator;}
+  /**
+     Returns the result of the operation
+     * @return numerator.intValue() / denominator.intValue();
+     */        
     @Override
     public int intValue() {return numerator.intValue() / denominator.intValue();}
+  /**
+     Returns the result of the operation
+     * @return numerator.floatValue() / denominator.floatValue();
+     */        
     @Override
     public float floatValue() { return numerator.floatValue() / denominator.floatValue(); }
+  /**
+     Returns the result of the operation
+     * @return numerator.doubleValue() / denominator.doubleValue();
+     */        
     @Override
     public double doubleValue() { return numerator.doubleValue() / denominator.doubleValue();}   
     
-    
-    public static void main(String[] args) {
-        Fraction.of();
-    }
 }

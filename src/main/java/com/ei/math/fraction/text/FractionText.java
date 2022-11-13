@@ -57,9 +57,9 @@ public class FractionText {
        return first.text(mmc)+second.text(mmc,true) ; 
    }
    
-    private static String template(Fraction fraction,boolean signal,long mmc, boolean veriy){
+    private static String template(Fraction fraction,boolean signal,long mmc, boolean veriy,String sig){
        String sinal=  fraction.isNegative() ? "-" : "";
-       if(signal && fraction.isPositive()) sinal = "+" ;
+       if(signal && fraction.isPositive()) sinal = sig == null ? "+" : sig ;
        
        String denominator, parentes;
        fraction = fraction.isNegative() ? fraction.positive() : fraction;
@@ -75,20 +75,37 @@ public class FractionText {
    }
    
    public static String template(Fraction fraction,long mmc,boolean signal){
-       return template(fraction,signal,mmc,true);
+       return template(fraction,signal,mmc,true,null);
    }
    
    public static String template(Fraction fraction,long mmc){
-       return template(fraction,false,mmc,true);
+       return template(fraction,false,mmc,true,null);
    }
    
    public static String template(Fraction fraction,boolean signal){
-       return template(fraction,signal,0,false);
+       return template(fraction,signal,0,false,null);
    }
+   
+   public static String template(Fraction fraction,boolean signal,String sig){
+       return template(fraction,signal,0,false,sig);
+   }   
    
    public static String template(Fraction fraction){
       return template(fraction, false);
   }
 
+   public static String simply(Fraction fraction, long mdc){
+       String num = fraction.getNumerator() +":"+ mdc;
+       String den = fraction.getDenominator() +":"+ mdc;
+       return num+"/"+den;
+   }
+   
+   public static String join(Fraction first, Fraction second){
+       return first.text()+second.text(true);
+   }
+   
+   public static String join(Fraction first, Fraction second,String signal){
+       return first.text()+second.text(true,signal);
+   }
     
 }

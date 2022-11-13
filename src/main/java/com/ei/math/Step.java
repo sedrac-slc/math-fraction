@@ -6,7 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ *{@code Step} class represents the steps for solving an operation
+ * 
+ * @author  Sedrac Lucas Calupeteca
+ * @since   1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor
