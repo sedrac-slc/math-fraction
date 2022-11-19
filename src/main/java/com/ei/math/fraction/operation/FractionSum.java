@@ -123,12 +123,5 @@ public class FractionSum extends FractionOper{
                 return par ? minMultiploCommon(first, second) : crossSystem(first, second);
         }
     }
-    
-    public static void main(String[] args) {
-        FractionSum arithmeticSum = new FractionSum();
-        arithmeticSum.minMultiploCommon(Fraction.of(3, 2), Fraction.of(2, 4))
-                .getSteps()
-                .forEach(e -> System.out.println(e.getMessage()+"\n"+ e.getText()));
-    }   
-        
+         
 }
