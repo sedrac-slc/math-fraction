@@ -207,9 +207,9 @@ final public class FractionFormatter {
                          .build();         
     }
     
-    public static Step stepSimply(Fraction fraction,int pos) {
+    public static Step stepSimplify(Fraction fraction,int pos) {
         long mdc = fraction.mdc();
-        String msg = String.format(message.getString("step.simply"),mdc);        
+        String msg = String.format(message.getString("step.simplify"),mdc);        
         return (new Step()).toBuilder()
                          .text(FractionText.simply(fraction, mdc))
                          .html(FractionHtml.simply(fraction, mdc))

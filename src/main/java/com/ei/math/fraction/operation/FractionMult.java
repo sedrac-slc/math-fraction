@@ -29,11 +29,12 @@ public class FractionMult extends FractionOper{
      */  
     @Override
     public FractionResult solve(Fraction first, Fraction second) {
+        init();
         list.add(FractionFormatter.starMultOrDiv(first, second, "*"));
         list.add(FractionFormatter.stepOneMult(first, second));
         list.add(FractionFormatter.stepTwoMult(first, second));
         Fraction fraction = FractionUtil.mult(first, second);
-        FractionPartStepMethods.simplyVerif(list, fraction, 3, 4);
+        FractionPartStepMethods.simplify(list, fraction, 3, 4);
         return (new FractionResult()).toBuilder().steps(list).status(true).fraction(fraction).build();
     }
     /**

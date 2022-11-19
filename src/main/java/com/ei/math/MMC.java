@@ -83,7 +83,7 @@ public final class MMC {
         if(tam == 1) return solve(numbs.get(0));
         if(tam == 2) return  solve(numbs.get(0), numbs.get(1));
         long mmc = solve(numbs.get(0), numbs.get(1));
-        for (int i = 2; i &lt tam; i++) 
+        for (int i = 2; i &lt; tam; i++) 
             mmc = solve(mmc, numbs.get(i));
      * }</pre>
      * @return mmc;

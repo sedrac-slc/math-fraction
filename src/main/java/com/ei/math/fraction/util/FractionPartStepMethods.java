@@ -43,7 +43,7 @@ public class FractionPartStepMethods {
         long num = numeratorsSumOrSub(first, second, signal);
         Fraction fraction = Fraction.of(num,second.getDenominator());
   
-         FractionPartStepMethods.simplyVerif(list, fraction, 3, 4);
+         FractionPartStepMethods.simplify(list, fraction, 3, 4);
         return (new FractionResult()).toBuilder().steps(list).status(true).fraction(fraction).build();
     }    
   
@@ -63,9 +63,9 @@ public class FractionPartStepMethods {
   } 
   
     
-     public static void simplyVerif(List<Step> list, Fraction fraction, int posSimply, int posFinish) {
+     public static void simplify(List<Step> list, Fraction fraction, int posSimply, int posFinish) {
         if(!fraction.isIrreducible()){
-            list.add(FractionFormatter.stepSimply(fraction, posSimply));
+            list.add(FractionFormatter.stepSimplify(fraction, posSimply));
             fraction = fraction.simplify();
             list.add(FractionFormatter.finish(fraction,posFinish));
         }

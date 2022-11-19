@@ -19,13 +19,12 @@ import lombok.Setter;
 public class FractionMessage {
     protected Locale locale;
     @Getter(AccessLevel.NONE)
-    protected final String baseName = "messages";
+    protected final String baseName = "com.ei.math.fraction.languages.ResourceBundle";
     @Getter(AccessLevel.NONE)
     protected ResourceBundle message;
     
     {
-        locale = Locale.getDefault();
-        message = ResourceBundle.getBundle(baseName);
+       locale = Locale.ENGLISH;
     }
 
     public FractionMessage(Locale locale) {
@@ -56,6 +55,7 @@ public class FractionMessage {
      * @return  message.getString(key);
      */     
     public String getString(String key,Locale locale){
+        //message = ResourceBundle.getBundle(baseName);
         message = ResourceBundle.getBundle(baseName, locale);
         return message.getString(key);
     }
@@ -65,7 +65,7 @@ public class FractionMessage {
      * @return  getString(key, locale);
      */    
      public String getString(String key){
-        return getString(key, locale);
+        return getString(key,locale);
     }
    
  

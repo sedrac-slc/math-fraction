@@ -49,6 +49,8 @@ public final class FractionConverter {
      * @return Fraction.of(numerator,denominator);
      */    
     public static Fraction parse(String number){   
+        if(number.matches("\\d+"))
+            return Fraction.of(Long.parseLong(number),1L);
         if(number.matches("\\d+\\.\\d+")) return convertDoubleToFraction(number);
         if(!number.matches(FractionRegex.FRACTION))
             throw new FractionRegexException();

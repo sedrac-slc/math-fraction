@@ -1,8 +1,6 @@
 package com.ei.math;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  *{@code MDC} is a class that represents the greatest common divisor
  * 
@@ -93,7 +91,7 @@ public final class MDC {
         if(tam == 1) return solve(numbs.get(0));
         if(tam == 2) return  solve(numbs.get(0), numbs.get(1));
         long mdc = solve(numbs.get(0), numbs.get(1));
-        for (int i = 2; i &lt tam; i++) 
+        for (int i = 2; i &lt; tam; i++) 
             mdc = solve(mdc, numbs.get(i));
      * }</pre>
      * @return mdc;

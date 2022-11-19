@@ -8,6 +8,7 @@ import com.ei.math.MMC;
 import com.ei.math.fraction.FractionConverter;
 import com.ei.math.fraction.FractionRegex;
 import com.ei.math.fraction.util.FractionUtil;
+import java.util.concurrent.ThreadLocalRandom;
 /**
  *{@code FractionSub} is the concrete class that represents the subtraction operation between fraction
  * 
@@ -17,6 +18,7 @@ import com.ei.math.fraction.util.FractionUtil;
 public class FractionSub extends FractionOper{
     public final static String METHOD_MMC = "mmc";
     public final static String METHOD_CROSS_SYSTEM = "crossSystem";
+    public final static String METHOD_RANDOM = "random";
     /**
      * Returns the subtraction of two fractions using the least common multiple method
      * @param first {@code Fraction} first fraction
@@ -27,6 +29,7 @@ public class FractionSub extends FractionOper{
      * and the steps to arrive at the result.
      */       
     public FractionResult minMultiploCommon(Fraction first, Fraction second){
+        init();
         if(first.getDenominator().equals(second.getDenominator()))
             return FractionPartStepMethods.baseCase(list, first, second, "-");
         long mmc = MMC.solve(first.getDenominator(), second.getDenominator());
@@ -39,7 +42,7 @@ public class FractionSub extends FractionOper{
         long num = first.getNumerator()*(mmc/first.getDenominator())+
                    second.getNumerator()*(mmc/second.getDenominator());
         Fraction fraction = Fraction.of(num, mmc);
-        FractionPartStepMethods.simplyVerif(list, fraction, 5, 6);
+        FractionPartStepMethods.simplify(list, fraction, 5, 6);
         return (new FractionResult()).toBuilder().steps(list).status(true).fraction(fraction).build();
     }
     /**
@@ -51,6 +54,7 @@ public class FractionSub extends FractionOper{
      * and the steps to arrive at the result.
      */     
     public FractionResult crossSystem(Fraction first, Fraction second){
+        init();
         if(first.getDenominator().equals(second.getDenominator()))
             return FractionPartStepMethods.baseCase(list, first, second, "-");    
         second = second.isPositive()? second.negative() : second;
@@ -59,7 +63,7 @@ public class FractionSub extends FractionOper{
         list.add(FractionFormatter.stepTwoCrossSystem(first, second,"-"));
         list.add(FractionFormatter.stepThreeCrossSystem(first, second));
         Fraction fraction = FractionUtil.crossSystem(first, second);
-        FractionPartStepMethods.simplyVerif(list, fraction, 4, 5);
+        FractionPartStepMethods.simplify(list, fraction, 4, 5);
         return (new FractionResult()).toBuilder().steps(list).status(true).fraction(fraction).build();
     }
     /**
@@ -127,8 +131,11 @@ public class FractionSub extends FractionOper{
         switch(method){
             case FractionSub.METHOD_MMC:
                 return minMultiploCommon(first, second);
-            default:
+            case FractionSub.METHOD_CROSS_SYSTEM:
                 return crossSystem(first, second);
+            default:
+                boolean par = ThreadLocalRandom.current().nextInt(1,10) % 2 == 0;
+                return par ? minMultiploCommon(first, second) : crossSystem(first, second);
         }
     }
    

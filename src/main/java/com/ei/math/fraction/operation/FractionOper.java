@@ -18,6 +18,10 @@ public abstract class FractionOper {
     
     {list = new ArrayList<>();}
     
+    protected  void init(){
+        list = new ArrayList<>();
+    }
+    
     public abstract FractionResult solve(Fraction first, Fraction second);
     public abstract FractionResult solve(Fraction first, Fraction second,String method);
     public abstract FractionResult solve(String expression, String method);

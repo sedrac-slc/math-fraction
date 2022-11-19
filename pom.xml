@@ -10,12 +10,46 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+    
+    
+    <build>
+        <plugins>
+               
+        </plugins>
+    </build>
+    
+    <name>math-fraction</name>
+    <description>math fraction problem solving system</description>
+    <url>https://github.com/sedrac-slc/math-fraction</url>
+    
     <dependencies>
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.24</version>
-		<scope>provided</scope>
-	</dependency>
-</dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    
+ 
+    <developers>
+        <developer>
+            <name>Sedrac Lucas Calupeteca</name>
+            <email>slcsedrac@gmail.com</email>
+            <organization>EI</organization>
+            <organizationUrl>https://github.com/sedrac-slc/</organizationUrl>
+        </developer>
+    </developers>
+    
+    
+
+    
 </project>

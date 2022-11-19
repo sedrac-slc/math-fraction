@@ -9,7 +9,6 @@ import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
 /**
  * The {@code Fraction} class represents the set of fractional numbers.
  * 
@@ -353,7 +352,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }    
  /**
      <p>Returns the irreducible fraction</p>
-     * @see com.ei.math.MDC;
      * <strong>formula:</strong> calculate the greatest common divisor (GCD or MDC) between the numerator and denominator, then divide the numerator and denominator with (GCD or MDC)
      * <pre>{
      *  long mdc = MDC.solve(numerator, denominator);
@@ -366,7 +364,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }
  /**
      <p>Returns the  greatest common divisor (GCD or MDC) between the numerator and denominator,</p>
-     * @see com.ei.math.MDC;
      * @return MDC.solve(Math.abs(numerator),Math.abs(denominator))
      */  
      public long mdc(){
@@ -375,7 +372,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
  /**
      Returns the power of the fraction
      * @param exponent
-     * @see com.ei.math.MDC;
      * <pre>{
      * long mdc = MDC.solve(numerator, denominator);
      * }</pre> 
@@ -387,7 +383,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
  /**
      Returns the power of the fraction
      * @param exponent
-     * @see com.ei.math.MDC;
+     *
      * <pre>{
      *  if (exponent &gt; 0) {
      *       long num = (long) Math.pow(numerator, exponent);
@@ -417,7 +413,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }   
  /**
      Returns the fraction in this format: 1/2, -1/4
-     * @see com.ei.math.fraction.text.FractionText;
      * @return FractionText.template(this);
      */     
     public String text(){
@@ -426,7 +421,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
  /**
      Returns the fraction in this format: +1/2, -1/4
      * @param signal {@code boolean} to not hide the plus sign (+)
-     * @see com.ei.math.fraction.text.FractionText;
      * @return FractionText.template(this, signal);
      */     
     public String text(boolean signal){
@@ -436,7 +430,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      Returns the fraction in this format: +1/2, -1/4
      * @param signal {@code boolean} verify sign
      * @param sig {@code boolean} to not hide the plus sign
-     * @see com.ei.math.fraction.text.FractionText;
      * @return FractionText.template(this, signal,sig);
      */     
     public String text(boolean signal,String sig){
@@ -445,7 +438,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
   /**
      Returns the fraction in this format: 1/2(5), -1/4(7)
      * @param mmc {@code long} least common multiple
-     * @see com.ei.math.fraction.text.FractionText;
      * @return FractionText.template(this, mmc);
      */    
     public String text(long mmc){
@@ -455,7 +447,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      Returns the fraction in this format: +1/2(5), -1/4(7)
     * @param signal {@code boolean} to not hide the plus sign (+)
      * @param mmc {@code long} least common multiple
-     * @see com.ei.math.fraction.text.FractionText;
      * @return FractionText.template(this, mmc, signal);
      */       
     public String text(long mmc, boolean signal){
@@ -463,7 +454,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     }       
  /**
      Returns the fraction in this format with html code: 1/2, -1/4
-     * @see com.ei.math.fraction.text.FractionHtml;
      * @return FractionHtml.template(this);
      */     
     public String html(){
@@ -472,7 +462,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
  /**
      Returns the fraction in this format with html code: +1/2, -1/4
      * @param signal {@code boolean} to not hide the plus sign (+)
-     * @see com.ei.math.fraction.text.FractionHtml;
      * @return FractionHtml.template(this, signal);
      */       
     public String html(boolean signal){
@@ -482,7 +471,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
      Returns the fraction in this format with html code: +1/2, -1/4
      * @param signal {@code boolean} verify sign (+)
      * @param sig  {@code boolean} to not hide the  sign 
-     * @see com.ei.math.fraction.text.FractionHtml;
      * @return FractionHtml.template(this, signal,sig);
      */       
     public String html(boolean signal,String sig){
@@ -491,7 +479,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
   /**
      Returns the fraction in this format with html code: 1/2(5), -1/4(7)
      * @param mmc {@code long} least common multiple
-     * @see com.ei.math.fraction.text.FractionHtml;
      * @return FractionHtml.template(this, mmc);
      */     
     public String html(long mmc){
@@ -501,7 +488,6 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     Returns the fraction in this format with html code: +1/2(5), -1/4(7)
     * @param signal {@code boolean} to not hide the plus sign (+)
      * @param mmc {@code long} least common multiple
-     * @see com.ei.math.fraction.text.FractionHtml;
      * @return FractionHtml.template(this, mmc, signal);
      */      
     public String html(long mmc, boolean signal){
@@ -533,7 +519,7 @@ public final class Fraction extends Number implements Comparable< Fraction > , S
     *   if(!(obj instanceof Fraction)) return false;
     *    Fraction fraction = (Fraction) obj;
     * }</pre>
-    *@return numerator.equals(fraction.getNumerator()) && denominator.equals(fraction.getDenominator());
+    *@return numerator.equals(fraction.getNumerator()) &amp;&amp; denominator.equals(fraction.getDenominator());
     */  
     @Override
     public boolean equals(Object obj) {
