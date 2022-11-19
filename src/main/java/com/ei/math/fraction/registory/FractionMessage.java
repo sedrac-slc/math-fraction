@@ -24,7 +24,7 @@ public class FractionMessage {
     protected ResourceBundle message;
     
     {
-       locale = Locale.ENGLISH;
+       locale = Locale.getDefault();
     }
 
     public FractionMessage(Locale locale) {
